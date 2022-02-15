@@ -5,7 +5,7 @@ const port = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
   try {
-    html = fs.readFileSync('index.html');
+    html = fs.readFileSync('src/client/index.html');
     res.writeHead(200);
     res.write(html);
     res.end()
