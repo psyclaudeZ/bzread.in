@@ -1,18 +1,16 @@
 {
-  "name": "techro",
+  "name": "login-aws-lambda",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/server/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "zbw",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.2",
-    "mongodb": "^4.3.1",
-    "nodemon": "^2.0.15"
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^8.5.1"
   }
 }
