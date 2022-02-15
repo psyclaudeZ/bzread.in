@@ -10,7 +10,7 @@ async function login(user) {
         })
     }
 
-    const dynamoUser = await getUserInfoFromDynamo(username.toLower().trim());
+    const dynamoUser = await getUserInfoFromDynamo(username.toLowerCase().trim());
     if (!dynamoUser || !dynamoUser.username) {
         return buildResponse(403, {   
             message: 'User does not exist.'
