@@ -10,8 +10,6 @@ const loginPath = '/login';
 const verifyPath = '/verify';
 
 exports.handler = async (event) => {
-    console.log(`Requested event ${event}`);
-
     let response;
     const httpMethod = event.httpMethod;
     const path = event.path;
