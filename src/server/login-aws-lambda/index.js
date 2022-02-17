@@ -16,13 +16,13 @@ exports.handler = async (event) => {
     const httpMethod = event.httpMethod;
     const path = event.path;
     
-    if (httpMethod === 'GET' && path === '/health') {
+    if (httpMethod === 'GET' && path === healthPath) {
         response = buildResponse(200);
-    } else if (httpMethod === 'POST' && path === '/register') {
+    } else if (httpMethod === 'POST' && path === registerPath) {
         response = await registerService.register(JSON.parse(event.body));
-    } else if (httpMethod === 'POST' && path === '/login') {
+    } else if (httpMethod === 'POST' && path === loginPath) {
         response = await loginService.login(JSON.parse(event.body)); 
-    } else if (httpMethod === 'POST' && path === '/verify') {
+    } else if (httpMethod === 'POST' && path === verifyPath) {
         response = verifyService.verify(JSON.parse(event.body));
     } else {
         response = buildResponse(404);

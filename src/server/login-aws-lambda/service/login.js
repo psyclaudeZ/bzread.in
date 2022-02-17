@@ -1,8 +1,8 @@
 const bcrypt = require('bcryptjs');
 const {buildResponse, generateToken, getUserInfoFromDynamo} = require('../utils');
 
-async function login(user) {
-    const {username, password} = user;
+async function login(payload) {
+    const {username, password} = payload;
 
     if (!username || !password) {
         return buildResponse(401, {
