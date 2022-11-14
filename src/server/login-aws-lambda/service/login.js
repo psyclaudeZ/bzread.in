@@ -1,38 +1,42 @@
-const bcrypt = require('bcryptjs');
-const {buildResponse, generateToken, getUserInfoFromDynamo} = require('../utils');
+const bcrypt = require("bcryptjs");
+const {
+  buildResponse,
+  generateToken,
+  getUserInfoFromDynamo,
+} = require("../utils");
 
 async function login(payload) {
-    const {username, password} = payload;
+  const { username, password } = payload;
 
-    if (!username || !password) {
-        return buildResponse(401, {
-            message: 'Missing required information.'
-        })
-    }
+  if (!username || !password) {
+    return buildResponse(401, {
+      message: "Missing required information.",
+    });
+  }
 
-    const dynamoUser = await getUserInfoFromDynamo(username.toLowerCase().trim());
-    if (!dynamoUser || !dynamoUser.username) {
-        return buildResponse(403, {   
-            message: 'User does not exist.'
-        })
-    }
+  const dynamoUser = await getUserInfoFromDynamo(username.toLowerCase().trim());
+  if (!dynamoUser || !dynamoUser.username) {
+    return buildResponse(403, {
+      message: "User does not exist.",
+    });
+  }
 
-    if (!bcrypt.compareSync(password, dynamoUser.password)) {
-        return buildResponse(403, {
-            message: 'Incorrect password.',
-        })
-    }
+  if (!bcrypt.compareSync(password, dynamoUser.password)) {
+    return buildResponse(403, {
+      message: "Incorrect password.",
+    });
+  }
 
-    const userInfo = {
-        username: dynamoUser.username,
-        name: dynamoUser.name,
-    }
-    const token = generateToken(userInfo);
-    const response = {
-        user: userInfo,
-        token: token,
-    }
-    return buildResponse(200, response);
+  const userInfo = {
+    username: dynamoUser.username,
+    name: dynamoUser.name,
+  };
+  const token = generateToken(userInfo);
+  const response = {
+    user: userInfo,
+    token: token,
+  };
+  return buildResponse(200, response);
 }
 
-module.exports.login = login
+module.exports.login = login;

@@ -34,8 +34,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var bcrypt = require('bcryptjs');
-var _a = require('../utils'), buildResponse = _a.buildResponse, generateToken = _a.generateToken, getUserInfoFromDynamo = _a.getUserInfoFromDynamo;
+var bcrypt = require("bcryptjs");
+var _a = require("../utils"), buildResponse = _a.buildResponse, generateToken = _a.generateToken, getUserInfoFromDynamo = _a.getUserInfoFromDynamo;
 function login(payload) {
     return __awaiter(this, void 0, void 0, function () {
         var username, password, dynamoUser, userInfo, token, response;
@@ -45,7 +45,7 @@ function login(payload) {
                     username = payload.username, password = payload.password;
                     if (!username || !password) {
                         return [2 /*return*/, buildResponse(401, {
-                                message: 'Missing required information.'
+                                message: "Missing required information.",
                             })];
                     }
                     return [4 /*yield*/, getUserInfoFromDynamo(username.toLowerCase().trim())];
@@ -53,12 +53,12 @@ function login(payload) {
                     dynamoUser = _a.sent();
                     if (!dynamoUser || !dynamoUser.username) {
                         return [2 /*return*/, buildResponse(403, {
-                                message: 'User does not exist.'
+                                message: "User does not exist.",
                             })];
                     }
                     if (!bcrypt.compareSync(password, dynamoUser.password)) {
                         return [2 /*return*/, buildResponse(403, {
-                                message: 'Incorrect password.',
+                                message: "Incorrect password.",
                             })];
                     }
                     userInfo = {
