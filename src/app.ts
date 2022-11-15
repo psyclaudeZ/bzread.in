@@ -1,6 +1,7 @@
-const express = require("express");
+import express = require("express");
+import fs = require("fs");
+
 const app = express();
-const fs = require("fs");
 const port = process.env.PORT || 3000;
 
 app.get("/", (req, res) => {
