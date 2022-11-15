@@ -9,9 +9,8 @@ app.use(express.static(path.join(__dirname, "client", "build")));
 
 app.get("/", (req, res) => {
   try {
-    const html = fs.readFileSync("public/index.html");
     res.writeHead(200);
-    res.write(html);
+    res.write("GET / OK");
     res.end();
   } catch (err) {
     res.send("Oopsie: " + err);
