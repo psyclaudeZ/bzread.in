@@ -5,8 +5,9 @@ const fs = require("fs");
 const app = express();
 const port = process.env.PORT || 8088;
 
-app.use(express.static(path.join(__dirname, "client", "build")));
+app.use(express.static(`${__dirname}/client/build`));
 
+/*
 app.get("/", (req, res) => {
   try {
     res.writeHead(200);
@@ -16,6 +17,7 @@ app.get("/", (req, res) => {
     res.send("Oopsie: " + err);
   }
 });
+*/
 
 app.get("/test", (req, res) => {
   res.send("Hitting the test route.");
