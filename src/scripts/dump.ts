@@ -1,10 +1,10 @@
 #!/usr/bin/env npx ts-node
 import { promises as fsPromises } from "fs";
 
-import chalk = require("chalk");
-import clear = require("clear");
-import figlet = require("figlet");
-import program = require("commander");
+const chalk = require("chalk");
+const clear = require("clear");
+const figlet = require("figlet");
+const program = require("commander");
 
 import { XMLParser, XMLBuilder, XMLValidator } from "fast-xml-parser";
 import {
