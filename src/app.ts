@@ -7,17 +7,15 @@ const port = process.env.PORT || 8088;
 
 app.use(express.static(`${__dirname}/client/build`));
 
-/*
 app.get("/", (req, res) => {
   try {
     res.writeHead(200);
-    res.write("GET / OK");
+    res.write("Static content unavailable. It's werid you're ended up here.");
     res.end();
   } catch (err) {
     res.send("Oopsie: " + err);
   }
 });
-*/
 
 app.get("/test", (req, res) => {
   res.send("Hitting the test route.");
