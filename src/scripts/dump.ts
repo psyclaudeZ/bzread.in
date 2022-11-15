@@ -7,9 +7,19 @@ import figlet = require("figlet");
 import program = require("commander");
 
 import { XMLParser, XMLBuilder, XMLValidator } from "fast-xml-parser";
+import {
+  BatchWriteItemCommand,
+  BatchWriteItemCommandInput,
+  DynamoDBClient,
+  WriteRequest,
+} from "@aws-sdk/client-dynamodb";
+import { marshall } from "@aws-sdk/util-dynamodb";
 
 const XML_PATH = "posts.xml";
 const ATTRIBUTE_PREFIX = "@_";
+const PINBOARD_SOURCE = "pinboard";
+const SEPARATOR = ":";
+const BATCH_SIZE = 25;
 
 //clear();
 console.log(
@@ -31,25 +41,64 @@ fsPromises
     };
     const parser = new XMLParser(options);
     const json = parser.parse(value);
-    const posts = [];
+    const formatted_posts = [];
 
     json.posts.post.forEach((post) => {
-      posts.push({
-        uri: post[ATTRIBUTE_PREFIX + "href"],
-        title: post[ATTRIBUTE_PREFIX + "description"], // weird field name
-        source: "pinboard",
-        owner: 1, // me :)
-        score: 1.0,
+      formatted_posts.push({
+        PutRequest: {
+          Item: marshall({
+            id: PINBOARD_SOURCE + SEPARATOR + post[ATTRIBUTE_PREFIX + "hash"],
+            uri: post[ATTRIBUTE_PREFIX + "href"],
+            title: post[ATTRIBUTE_PREFIX + "description"], // weird field name
+            source: PINBOARD_SOURCE,
+            owner: 1, // me :)
+            score: 1.0,
+          }),
+        },
       });
     });
-    return posts;
+    return formatted_posts;
   })
-  .then((posts) => {
-    console.log(`Parsed ${posts.length} posts.`);
-    console.log(posts[0]);
-    if (program.opts().forRealz) {
-      console.log("FOR REAL!");
+  .then(async (posts) => {
+    if (!program.opts().forRealz) {
+      console.log("Specify -r to actually commit to DynamoDB.");
+      return;
     }
+    const client = new DynamoDBClient({ region: "us-west-1" });
+    for (let i = 0; i < posts.length; i += BATCH_SIZE) {
+      const batch: WriteRequest[] = posts.slice(i, i + BATCH_SIZE);
+      const params: BatchWriteItemCommandInput = {
+        RequestItems: {
+          "bzreadin-link": batch,
+        },
+      };
+      try {
+        await client.send(new BatchWriteItemCommand(params));
+      } catch (e) {
+        console.error(
+          `Encountered an error when committing batch ${
+            i % BATCH_SIZE
+          }. Error: ${e}`
+        );
+      }
+    }
+    /*
+    posts.forEach(async (post) => {
+      const params: PutItemCommandInput = {
+        TableName: "bzreadin-link",
+        Item: marshall({
+          id: post.id,
+          uri: post.uri,
+          title: post.title,
+          source: post.source,
+          owner: post.owner,
+          score: post.score,
+        }),
+      };
+      const results = await client.send(new PutItemCommand(params));
+      console.log(results);
+    });
+    */
   })
   .catch((error) => {
     console.error(`Failed to dump data. Error ${error}`);

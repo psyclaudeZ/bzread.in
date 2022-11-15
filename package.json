@@ -12,6 +12,8 @@
   "author": "zbw",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.210.0",
+    "@aws-sdk/util-dynamodb": "^3.210.0",
     "chalk": "^4.1.0",
     "clear": "^0.1.0",
     "commander": "^7.1.0",
