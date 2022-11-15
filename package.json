@@ -2,7 +2,7 @@
   "name": "bzread.in",
   "version": "0.1.0",
   "description": "",
-  "main": "app.ts",
+  "main": "src/app.ts",
   "scripts": {
     "start": "node src/app.ts",
     "build": "tsc",
