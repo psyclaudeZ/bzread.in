@@ -11,17 +11,27 @@ function App() {
     });
   }, []);
 
+  const idx = Math.floor(Math.random() * links.length);
+  const links_jsx =
+    links.length === 0 ? (
+      <div>Loading...</div>
+    ) : (
+      <div>
+        <ul>
+          {links.slice(idx, idx + 5).map((link) => (
+            <li key={link.id}>
+              <a href={link.uri}>{link.title}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+
   return (
     <div className="App">
       <h1>bzread.in</h1>
-      <h2>Archive all the gold of the Internet</h2>
-      <p>
-        Need some love of <del>React</del>, <del>TypeScript</del>, and Rust.
-      </p>
-      <p>
-        Here's a <a href="/test">REST endpoint</a> for you to click around!
-      </p>
-      {links}
+      <h2>Today's episode:</h2>
+      {links_jsx}
     </div>
   );
 }
