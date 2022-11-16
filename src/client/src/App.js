@@ -1,4 +1,16 @@
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+
 function App() {
+  const [links, setLinks] = useState([]);
+
+  useEffect(() => {
+    axios.get("/posts").then((response) => {
+      console.log(response);
+      setLinks(response.data);
+    });
+  }, []);
+
   return (
     <div className="App">
       <h1>bzread.in</h1>
@@ -9,6 +21,7 @@ function App() {
       <p>
         Here's a <a href="/test">REST endpoint</a> for you to click around!
       </p>
+      {links}
     </div>
   );
 }
