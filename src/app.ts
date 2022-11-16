@@ -1,13 +1,16 @@
 const express = require("express");
-const path = require("path");
-const fs = require("fs");
-
 const app = express();
 const port = process.env.PORT || 8088;
 
+// AWS JS V2
+const AWS = require("aws-sdk");
+const { unmarshall } = require("@aws-sdk/util-dynamodb");
+AWS.config.update({ region: "us-west-1" });
+const ddb = new AWS.DynamoDB({ apiVersion: "2012-08-10" });
+
 app.use(express.static(`${__dirname}/client/build`));
 
-app.get("/", (req, res) => {
+app.get("/", (_req, res) => {
   try {
     res.writeHead(200);
     res.write("Static content unavailable. It's werid you're ended up here.");
@@ -17,8 +20,22 @@ app.get("/", (req, res) => {
   }
 });
 
-app.get("/test", (req, res) => {
-  res.send("Hitting the test route.");
+app.get("/posts", (_req, res) => {
+  const params = {
+    TableName: "bzreadin-link",
+  };
+  ddb.scan(params, function (err, data) {
+    if (err) {
+      res.writeHead(500);
+      console.error(`Error fetching from DB: ${err}`);
+    } else {
+      const payload = [];
+      data.Items.forEach(function (elem) {
+        payload.push(unmarshall(elem));
+      });
+      res.send(payload);
+    }
+  });
 });
 
 app.listen(port, () => {
