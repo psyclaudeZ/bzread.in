@@ -82,23 +82,6 @@ fsPromises
         );
       }
     }
-    /*
-    posts.forEach(async (post) => {
-      const params: PutItemCommandInput = {
-        TableName: "bzreadin-link",
-        Item: marshall({
-          id: post.id,
-          uri: post.uri,
-          title: post.title,
-          source: post.source,
-          owner: post.owner,
-          score: post.score,
-        }),
-      };
-      const results = await client.send(new PutItemCommand(params));
-      console.log(results);
-    });
-    */
   })
   .catch((error) => {
     console.error(`Failed to dump data. Error ${error}`);
