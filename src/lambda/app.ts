@@ -10,6 +10,7 @@ const ddb = new AWS.DynamoDB({ apiVersion: "2012-08-10" });
 
 app.use(express.static(`${__dirname}/client/build`));
 
+/*
 app.get("/", (_req, res) => {
   try {
     res.writeHead(200);
@@ -19,6 +20,7 @@ app.get("/", (_req, res) => {
     res.send("Oopsie: " + err);
   }
 });
+*/
 
 app.get("/posts", (_req, res) => {
   const params = {
