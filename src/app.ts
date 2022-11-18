@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 8088;
+const EPISODE_SIZE = 5;
 
 // AWS JS V2
 const AWS = require("aws-sdk");
@@ -21,6 +22,7 @@ app.get("/", (_req, res) => {
 });
 
 const axios = require("axios");
+const seedrandom = require("seedrandom");
 app.get("/api/v1/episode", (_req, res) => {
   axios
     .get(process.env.EPISODE_ENDPOINT, {
@@ -29,11 +31,9 @@ app.get("/api/v1/episode", (_req, res) => {
       },
     })
     .then((response) => {
-      res.writeHead(200);
-      const all_posts = response.data;
-      const idx = Math.floor(Math.random() * all_posts.length);
-      const episode = all_posts.slice(idx, idx + 5);
+      const episode = composeEpisode(response.data, EPISODE_SIZE);
       console.log(episode);
+      res.writeHead(200);
       res.write(JSON.stringify(episode));
       res.end();
     })
@@ -42,6 +42,20 @@ app.get("/api/v1/episode", (_req, res) => {
       console.error(`Error: ${err.stack}`);
     });
 });
+
+/**
+ * Durstenfeld's shuffle.
+ *
+ * See https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle#The_modern_algorithm
+ */
+function composeEpisode(arr, size) {
+  const rng = seedrandom(new Date().toISOString().slice(0, 10));
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr.slice(0, size);
+}
 
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
