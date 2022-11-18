@@ -29,7 +29,7 @@ app.get("/posts", (_req, res) => {
       res.writeHead(500);
       console.error(`Error fetching from DB: ${err}`);
     } else {
-      const payload = [];
+      const payload: string[] = [];
       data.Items.forEach(function (elem) {
         payload.push(unmarshall(elem));
       });
