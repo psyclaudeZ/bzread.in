@@ -3,29 +3,32 @@ import axios from "axios";
 
 function App() {
   const [links, setLinks] = useState([]);
-  console.log(process.env);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     axios
-      .get(process.env.EPISODE_ENDPOINT, {
-        headers: {
-          "x-api-key": process.env.EPISODE_ENDPOINT_API_KEY,
-        },
-      })
+      .get("/episode")
       .then((response) => {
-        console.log(response);
         setLinks(response.data);
+      })
+      .catch((error) => {
+        setErrorMessage(
+          error.message ? error.message : "Failed to fetch data from server."
+        );
       });
   }, []);
 
-  const idx = Math.floor(Math.random() * links.length);
   const links_jsx =
     links.length === 0 ? (
-      <div>Loading...</div>
+      errorMessage != null ? (
+        <div>Encountered an error: {errorMessage}.</div>
+      ) : (
+        "Loading..."
+      )
     ) : (
       <div>
         <ul>
-          {links.slice(idx, idx + 5).map((link) => (
+          {links.map((link) => (
             <li key={link.id}>
               <a href={link.uri}>{link.title}</a>
             </li>
