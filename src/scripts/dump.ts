@@ -1,6 +1,12 @@
 #!/usr/bin/env npx ts-node
 import { promises as fsPromises } from "fs";
-import { XMLParser } from "fast-xml-parser";
+
+const chalk = require("chalk");
+const clear = require("clear");
+const figlet = require("figlet");
+const program = require("commander");
+
+import { XMLParser, XMLBuilder, XMLValidator } from "fast-xml-parser";
 import {
   BatchWriteItemCommand,
   BatchWriteItemCommandInput,
@@ -9,16 +15,13 @@ import {
 } from "@aws-sdk/client-dynamodb";
 import { marshall } from "@aws-sdk/util-dynamodb";
 
-const chalk = require("chalk");
-const figlet = require("figlet");
-const program = require("commander");
-
 const XML_PATH = "posts.xml";
 const ATTRIBUTE_PREFIX = "@_";
 const PINBOARD_SOURCE = "pinboard";
 const SEPARATOR = ":";
 const BATCH_SIZE = 25;
 
+//clear();
 console.log(
   chalk.white(figlet.textSync("Pinboard Dumper", { horizontalLayout: "full" }))
 );
