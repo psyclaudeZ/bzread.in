@@ -3,11 +3,7 @@ import axios from "axios";
 
 function App() {
   const [links, setLinks] = useState([]);
-  /*
   console.log(process.env);
-  console.log(process.env.EPISODE_ENDPOINT);
-  console.log(process.env.EPISODE_ENDPOINT_API_KEY);
-  */
 
   useEffect(() => {
     axios
