@@ -7,7 +7,7 @@ function App() {
 
   useEffect(() => {
     axios
-      .get("/episode")
+      .get("/api/v1/episode")
       .then((response) => {
         setLinks(response.data);
       })

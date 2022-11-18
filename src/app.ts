@@ -21,7 +21,7 @@ app.get("/", (_req, res) => {
 });
 
 const axios = require("axios");
-app.get("/episode", (_req, res) => {
+app.get("/api/v1/episode", (_req, res) => {
   axios
     .get(process.env.EPISODE_ENDPOINT, {
       headers: {
