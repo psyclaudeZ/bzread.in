@@ -57,6 +57,10 @@ function composeEpisode(arr, size) {
   return arr.slice(0, size);
 }
 
+app.all("*", function (req, res) {
+  res.redirect("/");
+});
+
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
 });
