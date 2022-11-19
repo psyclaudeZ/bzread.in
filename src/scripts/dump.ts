@@ -2,7 +2,6 @@
 import { promises as fsPromises } from "fs";
 
 const chalk = require("chalk");
-const clear = require("clear");
 const figlet = require("figlet");
 const program = require("commander");
 
@@ -21,7 +20,6 @@ const PINBOARD_SOURCE = "pinboard";
 const SEPARATOR = ":";
 const BATCH_SIZE = 25;
 
-//clear();
 console.log(
   chalk.white(figlet.textSync("Pinboard Dumper", { horizontalLayout: "full" }))
 );
