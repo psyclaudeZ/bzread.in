@@ -51,7 +51,7 @@ function composeEpisode(arr, size) {
   return arr.slice(0, size);
 }
 
-app.get("*", function (req, res) {
+app.get("*", function (_req, res) {
   res.redirect("/");
 });
 
