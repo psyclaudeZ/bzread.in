@@ -3,12 +3,6 @@ const app = express();
 const port = process.env.PORT || 8088;
 const EPISODE_SIZE = 5;
 
-// AWS JS V2
-const AWS = require("aws-sdk");
-const { unmarshall } = require("@aws-sdk/util-dynamodb");
-AWS.config.update({ region: "us-west-1" });
-const ddb = new AWS.DynamoDB({ apiVersion: "2012-08-10" });
-
 app.use(express.static(`${__dirname}/client/build`));
 
 app.get("/", (_req, res) => {
