@@ -10,6 +10,12 @@ body {
   padding: 10px;
 }
 
+@media only screen and (max-width: 600px) {
+  body {
+    width: auto;
+  }
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
