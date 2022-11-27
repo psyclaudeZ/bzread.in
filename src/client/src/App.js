@@ -42,7 +42,7 @@ function App() {
     <div className="App">
       <h1>bzread.in</h1>
       <hr></hr>
-      <h2>Episode of {d}:</h2>
+      <h2>Episode of {d}</h2>
       {links_jsx}
     </div>
   );

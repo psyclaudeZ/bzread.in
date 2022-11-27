@@ -5,8 +5,15 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin: auto;
+  background-color: #f8f2e3;
   width: 50%;
   padding: 10px;
+}
+
+@media only screen and (max-width: 600px) {
+  body {
+    width: auto;
+  }
 }
 
 code {
