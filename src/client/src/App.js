@@ -27,20 +27,22 @@ function App() {
       )
     ) : (
       <div>
-        <ul>
+        <ol>
           {links.map((link) => (
             <li key={link.id}>
               <a href={link.uri}>{link.title}</a>
             </li>
           ))}
-        </ul>
+        </ol>
       </div>
     );
 
+  const d = new Date().toISOString().slice(0, 10);
   return (
     <div className="App">
       <h1>bzread.in</h1>
-      <h2>Today's episode:</h2>
+      <hr></hr>
+      <h2>Episode of {d}:</h2>
       {links_jsx}
     </div>
   );
