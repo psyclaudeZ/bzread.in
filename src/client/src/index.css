@@ -6,13 +6,27 @@ body {
   -moz-osx-font-smoothing: grayscale;
   margin: auto;
   background-color: #f8f2e3;
-  width: 50%;
+  width: 60%;
   padding: 10px;
+}
+
+ol {
+  list-style-position: inside;
+  padding-left: 0;
+}
+
+li {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 @media only screen and (max-width: 600px) {
   body {
-    width: auto;
+    width: 80%;
+  }
+  li {
+    max-width: 90%;
   }
 }
 
