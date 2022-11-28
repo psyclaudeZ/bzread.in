@@ -39,11 +39,17 @@ function App() {
 
   const d = new Date().toISOString().slice(0, 10);
   return (
-    <div className="App">
-      <h1>bzread.in</h1>
-      <hr></hr>
-      <h2>Episode of {d}</h2>
-      {links_jsx}
+    <div>
+      <div className="App">
+        <h1>bzread.in</h1>
+        <hr></hr>
+        <h2>Episode of {d}</h2>
+        {links_jsx}
+      </div>
+      <div className="footer">
+        <hr></hr>
+        <p>© 2022 bzread.in &bull; feedback@bzread.in</p>
+      </div>
     </div>
   );
 }
