@@ -38,6 +38,9 @@ li {
   li {
     max-width: 90%;
   }
+  .footer {
+    width: 80%;
+  }
 }
 
 code {
