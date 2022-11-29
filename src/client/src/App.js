@@ -48,7 +48,10 @@ function App() {
       </div>
       <div className="footer">
         <hr></hr>
-        <p>© 2022 bzread.in &bull; feedback@bzread.in</p>
+        <p>
+          © 2022 bzread.in &bull;{" "}
+          <a href="mailto:feedback@bzread.in">feedback@bzread.in</a>
+        </p>
       </div>
     </div>
   );
