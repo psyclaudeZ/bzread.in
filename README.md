@@ -1,5 +1,5 @@
 # bzread.in
 
-As in BZ is busy reading.
+BZ is busy reading so he built this service to help him re-share valuable contents he has consumed.
 
-A simple web app that re-delivers what BZ has read (and finds valuable) to the public. WIP but stay tuned.
+More features to come, stay tuned.
