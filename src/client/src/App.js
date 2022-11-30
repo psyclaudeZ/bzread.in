@@ -41,9 +41,11 @@ function App() {
   return (
     <div>
       <div className="App">
-        <h1>bzread.in</h1>
+        <div className="header-flex-container">
+          <h2>bzread.in</h2>
+        </div>
         <hr></hr>
-        <h2>Episode of {d}</h2>
+        <h3>Episode of {d}</h3>
         {links_jsx}
       </div>
       <div className="footer">
