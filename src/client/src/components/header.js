@@ -8,10 +8,7 @@ const Header = () => {
           <h2>bzread.in</h2>
         </Link>
         <nav>
-          <Link
-            to="/about"
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
+          <Link to="/about" style={{ textDecoration: "none", color: "#777" }}>
             about
           </Link>
         </nav>
