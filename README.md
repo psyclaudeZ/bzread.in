@@ -1,4 +1,4 @@
-# bzread.in
+# [bzread.in](https://bzread.in)
 
 BZ is busy reading so he built this service to help him re-share valuable contents he has consumed.
 
