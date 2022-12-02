@@ -5,20 +5,14 @@ const chalk = require("chalk");
 const figlet = require("figlet");
 const program = require("commander");
 
-import { XMLParser, XMLBuilder, XMLValidator } from "fast-xml-parser";
-import {
-  BatchWriteItemCommand,
-  BatchWriteItemCommandInput,
-  DynamoDBClient,
-  WriteRequest,
-} from "@aws-sdk/client-dynamodb";
+import { XMLParser } from "fast-xml-parser";
 import { marshall } from "@aws-sdk/util-dynamodb";
+import { DBUtils } from "./db";
 
 const XML_PATH = "posts.xml";
 const ATTRIBUTE_PREFIX = "@_";
 const PINBOARD_SOURCE = "pinboard";
 const SEPARATOR = ":";
-const BATCH_SIZE = 25;
 
 console.log(
   chalk.white(figlet.textSync("Pinboard Dumper", { horizontalLayout: "full" }))
@@ -62,24 +56,8 @@ fsPromises
       console.log("Specify -r to actually commit to DynamoDB.");
       return;
     }
-    const client = new DynamoDBClient({ region: "us-west-1" });
-    for (let i = 0; i < posts.length; i += BATCH_SIZE) {
-      const batch: WriteRequest[] = posts.slice(i, i + BATCH_SIZE);
-      const params: BatchWriteItemCommandInput = {
-        RequestItems: {
-          "bzreadin-link": batch,
-        },
-      };
-      try {
-        await client.send(new BatchWriteItemCommand(params));
-      } catch (e) {
-        console.error(
-          `Encountered an error when committing batch ${
-            i % BATCH_SIZE
-          }. Error: ${e}`
-        );
-      }
-    }
+    const db = new DBUtils();
+    await db.batchWrite(posts);
   })
   .catch((error) => {
     console.error(`Failed to dump data. Error ${error}`);
