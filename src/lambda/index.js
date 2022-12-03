@@ -6,6 +6,13 @@ exports.handler = async (event, context, callback) => {
   AWS.config.update({ region: "us-west-1" });
   const ddb = new AWS.DynamoDB({ apiVersion: "2012-08-10" });
   const params = {
+    FilterExpression: "#link_status = :active",
+    ExpressionAttributeValues: {
+      ":active": { S: "active" },
+    },
+    ExpressionAttributeNames: {
+      "#link_status": "status",
+    },
     TableName: "bzreadin-link",
   };
   let payload = [];
