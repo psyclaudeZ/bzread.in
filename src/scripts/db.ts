@@ -5,7 +5,6 @@ import {
   ScanCommand,
   WriteRequest,
 } from "@aws-sdk/client-dynamodb";
-import { marshall } from "@aws-sdk/util-dynamodb";
 
 const BATCH_SIZE = 20;
 
