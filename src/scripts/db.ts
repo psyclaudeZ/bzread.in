@@ -2,11 +2,12 @@ import {
   BatchWriteItemCommand,
   BatchWriteItemCommandInput,
   DynamoDBClient,
+  ScanCommand,
   WriteRequest,
 } from "@aws-sdk/client-dynamodb";
 import { marshall } from "@aws-sdk/util-dynamodb";
 
-const BATCH_SIZE = 25;
+const BATCH_SIZE = 20;
 
 class DBUtils {
   client: DynamoDBClient;
@@ -28,11 +29,20 @@ class DBUtils {
       } catch (e) {
         console.error(
           `Encountered an error when committing batch ${
-            i % BATCH_SIZE
+            i / BATCH_SIZE
           }. Error: ${e}`
         );
       }
     }
+  }
+
+  async queryAll() {
+    const data = await this.client.send(
+      new ScanCommand({
+        TableName: "bzreadin-link",
+      })
+    );
+    return data.Items;
   }
 }
 export { DBUtils };

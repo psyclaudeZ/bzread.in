@@ -6,8 +6,9 @@ const figlet = require("figlet");
 const program = require("commander");
 
 import { XMLParser } from "fast-xml-parser";
-import { marshall } from "@aws-sdk/util-dynamodb";
+import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
 import { DBUtils } from "./db";
+import { opts } from "commander";
 
 const XML_PATH = "posts.xml";
 const ATTRIBUTE_PREFIX = "@_";
@@ -37,16 +38,13 @@ fsPromises
 
     json.posts.post.forEach((post) => {
       formatted_posts.push({
-        PutRequest: {
-          Item: marshall({
-            id: PINBOARD_SOURCE + SEPARATOR + post[ATTRIBUTE_PREFIX + "hash"],
-            uri: post[ATTRIBUTE_PREFIX + "href"],
-            title: post[ATTRIBUTE_PREFIX + "description"], // weird field name
-            source: PINBOARD_SOURCE,
-            owner: 1, // me :)
-            score: 1.0,
-          }),
-        },
+        id: PINBOARD_SOURCE + SEPARATOR + post[ATTRIBUTE_PREFIX + "hash"],
+        uri: post[ATTRIBUTE_PREFIX + "href"],
+        title: post[ATTRIBUTE_PREFIX + "description"], // weird field name
+        source: PINBOARD_SOURCE,
+        owner: 1, // me :)
+        score: 1.0,
+        status: "active",
       });
     });
     return formatted_posts;
@@ -56,8 +54,31 @@ fsPromises
       console.log("Specify -r to actually commit to DynamoDB.");
       return;
     }
+    const newLinksSet = new Set<string>(posts.map((post) => post.id));
     const db = new DBUtils();
-    await db.batchWrite(posts);
+    const oldLinks = await db.queryAll();
+    // Mark the status for owner-removed links
+    oldLinks.forEach((oldLink) => {
+      const link = unmarshall(oldLink);
+      if (!newLinksSet.has(link.id)) {
+        posts.push({
+          ...link,
+          status: "owner_removed",
+        });
+        console.log(
+          `Marking post ${link.id} with ${link.title} as owner_removed.`
+        );
+      }
+    });
+    // Prepare posts to commit by marshalling and formatting
+    const postsToCommit = posts.map((post) => {
+      return {
+        PutRequest: {
+          Item: marshall(post),
+        },
+      };
+    });
+    await db.batchWrite(postsToCommit);
   })
   .catch((error) => {
     console.error(`Failed to dump data. Error ${error}`);
