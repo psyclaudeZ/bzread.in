@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 8088;
 const EPISODE_SIZE = 5;
+const EPISODE_INTERVAL = 3; // days
 
 app.use(express.static(`${__dirname}/client/build`));
 
@@ -43,7 +44,15 @@ app.get("/api/v1/episode", (_req, res) => {
  * See https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle#The_modern_algorithm
  */
 function composeEpisode(arr, size) {
-  const rng = seedrandom(new Date().toISOString().slice(0, 10));
+  const date = new Date().toISOString();
+  // date.slice(0, 10) == '2022-12-03'
+  // date.slice(0, 8) == '2022-12-'
+  // date.slice(8, 10) == '03'
+  //
+  // Basically refresh the seed every EPISODE_INTERVAL days.
+  const rng = seedrandom(
+    date.slice(0, 8) + parseInt(date.slice(8, 10)) / EPISODE_INTERVAL
+  );
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(rng() * (i + 1));
     [arr[i], arr[j]] = [arr[j], arr[i]];
