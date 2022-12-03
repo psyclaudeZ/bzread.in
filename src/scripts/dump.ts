@@ -5,20 +5,15 @@ const chalk = require("chalk");
 const figlet = require("figlet");
 const program = require("commander");
 
-import { XMLParser, XMLBuilder, XMLValidator } from "fast-xml-parser";
-import {
-  BatchWriteItemCommand,
-  BatchWriteItemCommandInput,
-  DynamoDBClient,
-  WriteRequest,
-} from "@aws-sdk/client-dynamodb";
-import { marshall } from "@aws-sdk/util-dynamodb";
+import { XMLParser } from "fast-xml-parser";
+import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
+import { DBUtils } from "./db";
+import { opts } from "commander";
 
 const XML_PATH = "posts.xml";
 const ATTRIBUTE_PREFIX = "@_";
 const PINBOARD_SOURCE = "pinboard";
 const SEPARATOR = ":";
-const BATCH_SIZE = 25;
 
 console.log(
   chalk.white(figlet.textSync("Pinboard Dumper", { horizontalLayout: "full" }))
@@ -43,16 +38,13 @@ fsPromises
 
     json.posts.post.forEach((post) => {
       formatted_posts.push({
-        PutRequest: {
-          Item: marshall({
-            id: PINBOARD_SOURCE + SEPARATOR + post[ATTRIBUTE_PREFIX + "hash"],
-            uri: post[ATTRIBUTE_PREFIX + "href"],
-            title: post[ATTRIBUTE_PREFIX + "description"], // weird field name
-            source: PINBOARD_SOURCE,
-            owner: 1, // me :)
-            score: 1.0,
-          }),
-        },
+        id: PINBOARD_SOURCE + SEPARATOR + post[ATTRIBUTE_PREFIX + "hash"],
+        uri: post[ATTRIBUTE_PREFIX + "href"],
+        title: post[ATTRIBUTE_PREFIX + "description"], // weird field name
+        source: PINBOARD_SOURCE,
+        owner: 1, // me :)
+        score: 1.0,
+        status: "active",
       });
     });
     return formatted_posts;
@@ -62,24 +54,31 @@ fsPromises
       console.log("Specify -r to actually commit to DynamoDB.");
       return;
     }
-    const client = new DynamoDBClient({ region: "us-west-1" });
-    for (let i = 0; i < posts.length; i += BATCH_SIZE) {
-      const batch: WriteRequest[] = posts.slice(i, i + BATCH_SIZE);
-      const params: BatchWriteItemCommandInput = {
-        RequestItems: {
-          "bzreadin-link": batch,
-        },
-      };
-      try {
-        await client.send(new BatchWriteItemCommand(params));
-      } catch (e) {
-        console.error(
-          `Encountered an error when committing batch ${
-            i % BATCH_SIZE
-          }. Error: ${e}`
+    const newLinksSet = new Set<string>(posts.map((post) => post.id));
+    const db = new DBUtils();
+    const oldLinks = await db.queryAll();
+    // Mark the status for owner-removed links
+    oldLinks.forEach((oldLink) => {
+      const link = unmarshall(oldLink);
+      if (!newLinksSet.has(link.id)) {
+        posts.push({
+          ...link,
+          status: "owner_removed",
+        });
+        console.log(
+          `Marking post ${link.id} with ${link.title} as owner_removed.`
         );
       }
-    }
+    });
+    // Prepare posts to commit by marshalling and formatting
+    const postsToCommit = posts.map((post) => {
+      return {
+        PutRequest: {
+          Item: marshall(post),
+        },
+      };
+    });
+    await db.batchWrite(postsToCommit);
   })
   .catch((error) => {
     console.error(`Failed to dump data. Error ${error}`);
