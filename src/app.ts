@@ -47,7 +47,7 @@ app.get("/api/v1/episode", (_req, res) => {
  */
 function composeEpisode(arr, size) {
   const rng = seedrandom(
-    Math.floor(new Date().getTime() / 86400 / EPISODE_INTERVAL)
+    Math.floor(new Date().getTime() / 86400000 / EPISODE_INTERVAL)
   );
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(rng() * (i + 1));
