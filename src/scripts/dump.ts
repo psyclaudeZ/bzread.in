@@ -50,10 +50,6 @@ fsPromises
     return formatted_posts;
   })
   .then(async (posts) => {
-    if (!program.opts().forRealz) {
-      console.log("Specify -r to actually commit to DynamoDB.");
-      return;
-    }
     const newLinksSet = new Set<string>(posts.map((post) => post.id));
     const db = new DBUtils();
     const oldLinks = await db.queryAll();
@@ -66,10 +62,14 @@ fsPromises
           status: "owner_removed",
         });
         console.log(
-          `Marking post ${link.id} with ${link.title} as owner_removed.`
+          `Will mark post ${link.id} with ${link.title} as owner_removed.`
         );
       }
     });
+    if (!program.opts().forRealz) {
+      console.log("Specify -r to actually commit to DynamoDB.");
+      return;
+    }
     // Prepare posts to commit by marshalling and formatting
     const postsToCommit = posts.map((post) => {
       return {
