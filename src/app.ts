@@ -39,19 +39,15 @@ app.get("/api/v1/episode", (_req, res) => {
 });
 
 /**
- * Durstenfeld's shuffle.
+ * Durstenfeld's shuffle. See
+ * https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle#The_modern_algorithm.
  *
- * See https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle#The_modern_algorithm
+ * The algorithm is seeded with the date number (based on day) / EPISODE_INTERVAL to
+ * ensure a new set of elements are picked every EPISODE_INTERVAL days.
  */
 function composeEpisode(arr, size) {
-  const date = new Date().toISOString();
-  // date.slice(0, 10) == '2022-12-03'
-  // date.slice(0, 8) == '2022-12-'
-  // date.slice(8, 10) == '03'
-  //
-  // Basically refresh the seed every EPISODE_INTERVAL days.
   const rng = seedrandom(
-    date.slice(0, 8) + parseInt(date.slice(8, 10)) / EPISODE_INTERVAL
+    Math.floor(new Date().getTime()) / 86400 / EPISODE_INTERVAL
   );
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(rng() * (i + 1));
