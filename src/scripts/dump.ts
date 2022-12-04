@@ -18,6 +18,7 @@ const SEPARATOR = ":";
 console.log(
   chalk.white(figlet.textSync("Pinboard Dumper", { horizontalLayout: "full" }))
 );
+console.log(chalk.yellow("Don't forget to curl pinboard first!"));
 
 program
   .version("1.0")
@@ -67,7 +68,7 @@ fsPromises
       }
     });
     if (!program.opts().forRealz) {
-      console.log("Specify -r to actually commit to DynamoDB.");
+      console.log(chalk.yellow("Specify -r to actually commit to DynamoDB."));
       return;
     }
     // Prepare posts to commit by marshalling and formatting
