@@ -1,11 +1,9 @@
 const About = () => {
   return (
     <div>
-      <ul>
-        <li>Smartly shares valuable contents BZ has read.</li>
-        <li>Expect a new episode every three days.</li>
-        <li>WIP: feedback loop, subscription, books, etc.</li>
-      </ul>
+      <p>Smartly shares valuable contents BZ has read.</p>
+      <p>Expect a new episode every three days.</p>
+      <p>WIP: feedback loop, subscription, books, etc.</p>
     </div>
   );
 };
