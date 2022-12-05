@@ -15,10 +15,15 @@ ol {
   padding-left: 0;
 }
 
-li {
+ol li {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+
+ul {
+  list-style-position: inside;
+  padding-left: 0;
 }
 
 .footer {
