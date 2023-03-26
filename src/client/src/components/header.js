@@ -9,7 +9,7 @@ const Header = () => {
         </Link>
         <nav>
           <Link to="/about" style={{ textDecoration: "none", color: "#777" }}>
-            abouttt
+            about
           </Link>
         </nav>
       </div>
