@@ -1,14 +1,14 @@
-#!/usr/bin/env -S npx ts-node
-import { promises as fsPromises } from "fs";
+#!/usr/bin/env node
 
+const fsPromises = require("fs").promises;
 const chalk = require("chalk");
 const figlet = require("figlet");
-const program = require("commander");
+const { program } = require("commander");
 
-import { XMLParser } from "fast-xml-parser";
-import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
-import { DBUtils } from "./db";
-import { opts } from "commander";
+const { XMLParser } = require("fast-xml-parser");
+const { marshall, unmarshall } = require("@aws-sdk/util-dynamodb");
+
+const DbUtils = require("./db.ts");
 
 const XML_PATH = "posts.xml";
 const ATTRIBUTE_PREFIX = "@_";
@@ -51,8 +51,8 @@ fsPromises
     return formatted_posts;
   })
   .then(async (posts) => {
-    const newLinksSet = new Set<string>(posts.map((post) => post.id));
-    const db = new DBUtils();
+    const newLinksSet = new Set(posts.map((post) => post.id));
+    const db = new DbUtils();
     const oldLinks = await db.queryAll();
     // Mark the status for owner-removed links
     oldLinks.forEach((oldLink) => {
