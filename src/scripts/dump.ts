@@ -1,4 +1,4 @@
-#!/usr/bin/env npx ts-node
+#!/usr/bin/env -S npx ts-node
 import { promises as fsPromises } from "fs";
 
 const chalk = require("chalk");
