@@ -1,24 +1,22 @@
-import {
+const {
   BatchWriteItemCommand,
-  BatchWriteItemCommandInput,
   DynamoDBClient,
   ScanCommand,
-  WriteRequest,
-} from "@aws-sdk/client-dynamodb";
+} = require("@aws-sdk/client-dynamodb");
 
-const BATCH_SIZE = 20;
+const BATCH_SIZE = 5;
 
 class DBUtils {
-  client: DynamoDBClient;
+  client;
 
   constructor() {
     this.client = new DynamoDBClient({ region: "us-west-1" });
   }
 
-  async batchWrite(posts: any[]) {
+  async batchWrite(posts) {
     for (let i = 0; i < posts.length; i += BATCH_SIZE) {
-      const batch: WriteRequest[] = posts.slice(i, i + BATCH_SIZE);
-      const params: BatchWriteItemCommandInput = {
+      const batch = posts.slice(i, i + BATCH_SIZE);
+      const params = {
         RequestItems: {
           "bzreadin-link": batch,
         },
@@ -44,4 +42,4 @@ class DBUtils {
     return data.Items;
   }
 }
-export { DBUtils };
+module.exports = DBUtils;
