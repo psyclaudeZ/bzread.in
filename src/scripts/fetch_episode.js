@@ -6,7 +6,7 @@ const fs = require("fs");
 
 const EPISODE_SIZE = 5;
 const EPISODE_INTERVAL = 3; // days
-const FULL_OUTPUT_PATH = `${__dirname}/../client/src/pages/links.js`
+const FULL_OUTPUT_PATH = `${__dirname}/../../episode/links.json`
 
 console.log(Date())
 
@@ -21,7 +21,7 @@ axios
   })
   .then((episode) => {
     console.log(episode);
-    fs.writeFileSync(FULL_OUTPUT_PATH, `export default {"links": ${JSON.stringify(episode)}}`);
+    fs.writeFileSync(FULL_OUTPUT_PATH, JSON.stringify(episode));
   })
   .catch((err) => {
     console.error(`Error: ${err.stack}`);

@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express();
+const fs = require("fs");
+
 const port = process.env.PORT || 8088;
+const FULL_OUTPUT_PATH = `${__dirname}/../episode/links.json`
 
 app.use(express.static(`${__dirname}/client/build`));
 
@@ -11,6 +14,19 @@ app.get("/", (_req, res) => {
     res.end();
   } catch (err) {
     res.send("Oopsie: " + err);
+  }
+});
+
+app.get("/api/v1/episode", (_req, res) => {
+  try {
+    const episode = fs.readFileSync(FULL_OUTPUT_PATH, 'utf8');
+    console.log(episode)
+    res.writeHead(200);
+    res.write(episode);
+    res.end();
+  } catch(err)  {
+    res.status(500).json({ err: "Failed to fetch today's episode" }).end();
+    console.error(`Error: ${err.stack}`);
   }
 });
 

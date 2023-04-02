@@ -1,14 +1,35 @@
-import React from "react";
-import data from './links.js'
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 function Episode() {
+  const [links, setLinks] = useState([]);
+  const [errorMessage, setErrorMessage] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get("/api/v1/episode")
+      .then((response) => {
+        setLinks(response.data);
+      })
+      .catch((error) => {
+        setErrorMessage(
+          error.message ? error.message : "Failed to fetch data from server."
+        );
+      });
+  }, []);
+
+
   const links_jsx =
-    data == null || data.links == null ? (
-      <div>Encountered an error fetching links.</div>
+    links.length === 0 ? (
+      errorMessage != null ? (
+        <div>Encountered an error: {errorMessage}.</div>
+      ) : (
+        "Loading..."
+      )
     ) : (
       <div>
         <ol>
-          {data.links.map((link) => (
+          {links.map((link) => (
             <li key={link.id}>
               <a href={link.uri}>{link.title}</a>
             </li>
