@@ -6,9 +6,9 @@ const fs = require("fs");
 
 const EPISODE_SIZE = 5;
 const EPISODE_INTERVAL = 3; // days
-const FULL_OUTPUT_PATH = `${__dirname}/../../episode/links.json`
+const FULL_OUTPUT_PATH = `${__dirname}/../../episode/links.json`;
 
-console.log(Date())
+console.log(Date());
 
 axios
   .get(process.env.EPISODE_ENDPOINT, {

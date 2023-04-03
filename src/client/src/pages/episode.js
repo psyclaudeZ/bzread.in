@@ -18,7 +18,6 @@ function Episode() {
       });
   }, []);
 
-
   const links_jsx =
     links.length === 0 ? (
       errorMessage != null ? (
