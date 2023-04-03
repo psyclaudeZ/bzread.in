@@ -27,7 +27,7 @@ axios
   })
   .then((response) => {
     console.log(process.env.EPISODE_ENDPIONT);
-    console.log(response);
+    // console.log(response);
     return composeEpisode(response.data, EPISODE_SIZE);
   })
   .then((episode) => {
