@@ -21,6 +21,7 @@ axios
   .get(process.env.EPISODE_ENDPOINT, {
     headers: {
       "x-api-key": process.env.EPISODE_ENDPOINT_API_KEY,
+      Accept: "application/json",
     },
     httpsAgent: agent,
   })

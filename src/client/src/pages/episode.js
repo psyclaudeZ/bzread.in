@@ -9,6 +9,8 @@ function Episode() {
     axios
       .get("/api/v1/episode")
       .then((response) => {
+        // Sanity checks whether it's of valid JSON format
+        JSON.parse(response.data);
         setLinks(response.data);
       })
       .catch((error) => {
