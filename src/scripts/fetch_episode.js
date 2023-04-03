@@ -2,6 +2,7 @@
 
 const axios = require("axios");
 const seedrandom = require("seedrandom");
+const https = require("https");
 const fs = require("fs");
 
 const EPISODE_SIZE = 5;
@@ -10,11 +11,18 @@ const FULL_OUTPUT_PATH = `${__dirname}/../../episode/links.json`;
 
 console.log(Date());
 
+// FIXME: to bypass the error of "hostname/IP does not match certificate's
+// altnames". It's theoritically okay since all the traffic is within AWS
+// but still.
+const agent = https.Agent({
+  rejectUnauthorized: false,
+});
 axios
   .get(process.env.EPISODE_ENDPOINT, {
     headers: {
       "x-api-key": process.env.EPISODE_ENDPOINT_API_KEY,
     },
+    httpsAgent: agent,
   })
   .then((response) => {
     return composeEpisode(response.data, EPISODE_SIZE);
