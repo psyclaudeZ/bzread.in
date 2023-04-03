@@ -17,6 +17,8 @@ console.log(Date());
 const agent = https.Agent({
   rejectUnauthorized: false,
 });
+console.log(process.env.EPISODE_ENDPOINT);
+
 axios
   .get(process.env.EPISODE_ENDPOINT, {
     headers: {
@@ -26,9 +28,6 @@ axios
     httpsAgent: agent,
   })
   .then((response) => {
-    console.log(process.env.EPISODE_ENDPIONT);
-    console.log(process.env);
-    // console.log(response);
     return composeEpisode(response.data, EPISODE_SIZE);
   })
   .then((episode) => {
