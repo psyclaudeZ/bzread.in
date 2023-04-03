@@ -26,6 +26,7 @@ axios
     httpsAgent: agent,
   })
   .then((response) => {
+    console.log(response);
     return composeEpisode(response.data, EPISODE_SIZE);
   })
   .then((episode) => {
