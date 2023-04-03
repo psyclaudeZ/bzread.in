@@ -17,7 +17,10 @@ console.log(Date());
 const agent = https.Agent({
   rejectUnauthorized: false,
 });
+console.log("wtf");
 console.log(process.env.EPISODE_ENDPOINT);
+console.log(process.env);
+console.log("wtf2");
 
 axios
   .get(process.env.EPISODE_ENDPOINT, {
