@@ -4,10 +4,12 @@ const axios = require("axios");
 const seedrandom = require("seedrandom");
 const https = require("https");
 const fs = require("fs");
+const RSS = require("rss");
 
 const EPISODE_SIZE = 5;
 const EPISODE_INTERVAL = 3; // days
 const FULL_OUTPUT_PATH = `${__dirname}/../../episode/links.json`;
+const FULL_RSS_PATH = `${__dirname}/../../src/client/build/rss.xml`;
 
 console.log(Date());
 
@@ -31,6 +33,7 @@ axios
   })
   .then((episode) => {
     console.log({ episode });
+    composeRss(episode);
     fs.writeFileSync(FULL_OUTPUT_PATH, JSON.stringify(episode));
   })
   .catch((err) => {
@@ -53,4 +56,34 @@ function composeEpisode(arr, size) {
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
   return arr.slice(0, size);
+}
+
+function composeRss(arr) {
+  const feed = new RSS({
+    title: "bzread.in",
+    description: "bzread.in",
+    feed_url: "https://bzread.in/rss.xml",
+    site_url: "https://bzread.in",
+  });
+  const feedContentHtml = `<ul>${arr
+    .map((obj) => `<li><a href="${obj.uri}">${obj.title}</a></li>`)
+    .join("")}</ul>`;
+  const newPost = {
+    title: "Today's Episode",
+    description: `${feedContentHtml}`,
+    url: "https://bzread.in",
+    date: new Date(), // Set the publication date for the new post
+  };
+
+  // Add the new item to the feed
+  feed.item(newPost);
+  const rssXml = feed.xml({ indent: true });
+  // Save the XML file to the desired location, e.g., the public folder of your website
+  fs.writeFile(FULL_RSS_PATH, rssXml, (err) => {
+    if (err) {
+      console.error("Error saving the RSS XML file:", err);
+    } else {
+      console.log("RSS XML file saved successfully");
+    }
+  });
 }
