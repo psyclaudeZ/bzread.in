@@ -13,6 +13,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Episode />} />
           <Route exact path="/about" element={<About />} />
+          <Route path="/rss.xml" onEnter={() => window.location.reload()} />
         </Routes>
         <Footer />
       </div>

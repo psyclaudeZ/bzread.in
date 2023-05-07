@@ -12,12 +12,12 @@ const Header = () => {
           <Link to="/about" style={{ textDecoration: "none", color: "#777" }}>
             about
           </Link>
-          <Link
-            to="/rss.xml"
+          <a
+            href="/rss.xml"
             style={{ textDecoration: "none", color: "#777", marginLeft: "8px" }}
           >
             rss
-          </Link>
+          </a>
         </nav>
       </div>
       <hr></hr>
