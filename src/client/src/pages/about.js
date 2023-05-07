@@ -6,7 +6,7 @@ const About = () => {
       <p>Smartly shares valuable contents BZ has read.</p>
       <p>Expect a new episode every three days.</p>
       <p>
-        WIP: feedback loop, subscription,{" "}
+        WIP: AI integration, feedback loop,{" "}
         <a href="https://www.goodreads.com/user/show/18664085-bowei-zhang">
           books
         </a>
