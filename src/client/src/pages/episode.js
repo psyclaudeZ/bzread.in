@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+const MILLISECONDS_IN_A_DAY = 24 * 60 * 60 * 1000;
+const EPISODE_INTERVAL = 3; // days
+
 function Episode() {
   const [links, setLinks] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -39,13 +42,25 @@ function Episode() {
       </div>
     );
 
-  const d = new Date().toISOString().slice(0, 10);
   return (
     <div>
-      <h3>Episode of {d}</h3>
+      <h3>Episode of {getEpisodeDate()}</h3>
       {links_jsx}
     </div>
   );
+}
+
+/**
+ * Bumped every three days.
+ */
+function getEpisodeDate() {
+  const episodeNumber = Math.floor(
+    new Date().getTime() / MILLISECONDS_IN_A_DAY / EPISODE_INTERVAL
+  );
+  const date = new Date(
+    episodeNumber * EPISODE_INTERVAL * MILLISECONDS_IN_A_DAY
+  );
+  return date.toISOString().slice(0, 10);
 }
 
 export default Episode;
