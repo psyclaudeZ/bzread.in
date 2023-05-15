@@ -8,6 +8,7 @@ const FULL_OUTPUT_PATH = `${__dirname}/../episode/links.json`;
 // test change
 app.use(express.static(`${__dirname}/client/build`));
 
+// stack 2
 app.get("/", (_req, res) => {
   try {
     res.writeHead(200);
