@@ -3,7 +3,7 @@
   "author": "zbw",
   "version": "0.1.0",
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.210.0",
+    "@aws-sdk/client-dynamodb": "^3.347.1",
     "@aws-sdk/util-dynamodb": "^3.210.0"
   }
 }
