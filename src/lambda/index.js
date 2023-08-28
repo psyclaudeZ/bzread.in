@@ -1,19 +1,19 @@
-const { unmarshall } = require("@aws-sdk/util-dynamodb");
-const { DynamoDBClient, ScanCommand } = require("@aws-sdk/client-dynamodb");
+const {unmarshall} = require('@aws-sdk/util-dynamodb');
+const {DynamoDBClient, ScanCommand} = require('@aws-sdk/client-dynamodb');
 
 exports.handler = async (event, context, callback) => {
-  const client = new DynamoDBClient({ region: "us-west-1" });
+  const client = new DynamoDBClient({region: 'us-west-1'});
   const data = await client.send(
     new ScanCommand({
-      FilterExpression: "#link_status = :active",
+      FilterExpression: '#link_status = :active',
       ExpressionAttributeValues: {
-        ":active": { S: "active" },
+        ':active': {S: 'active'},
       },
       ExpressionAttributeNames: {
-        "#link_status": "status",
+        '#link_status': 'status',
       },
-      TableName: "bzreadin-link",
-    })
+      TableName: 'bzreadin-link',
+    }),
   );
   let payload = [];
 
@@ -24,9 +24,9 @@ exports.handler = async (event, context, callback) => {
   return {
     statusCode: 200,
     headers: {
-      "Access-Control-Allow-Origin": "*",
+      'Access-Control-Allow-Origin': '*',
       //'Access-Control-Allow-Credentials': true,
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(payload),
   };

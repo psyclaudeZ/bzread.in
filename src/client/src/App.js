@@ -1,9 +1,9 @@
-import React from "react";
-import Footer from "./components/footer";
-import Header from "./components/header";
-import About from "./pages/about";
-import Episode from "./pages/episode";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React from 'react';
+import Footer from './components/footer';
+import Header from './components/header';
+import About from './pages/about';
+import Episode from './pages/episode';
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 
 function App() {
   return (

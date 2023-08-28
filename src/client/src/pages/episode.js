@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
 
 const MILLISECONDS_IN_A_DAY = 24 * 60 * 60 * 1000;
 const EPISODE_INTERVAL = 3; // days
@@ -10,16 +10,14 @@ function Episode() {
 
   useEffect(() => {
     axios
-      .get("/api/v1/episode")
+      .get('/api/v1/episode')
       .then((response) => {
         // Sanity checks whether it's of valid JSON format
         JSON.parse(JSON.stringify(response.data));
         setLinks(response.data);
       })
       .catch((error) => {
-        setErrorMessage(
-          error.message ? error.message : "Failed to fetch data from server."
-        );
+        setErrorMessage(error.message ? error.message : 'Failed to fetch data from server.');
       });
   }, []);
 
@@ -28,7 +26,7 @@ function Episode() {
       errorMessage != null ? (
         <div>Encountered an error: {errorMessage}.</div>
       ) : (
-        "Loading..."
+        'Loading...'
       )
     ) : (
       <div>
@@ -54,12 +52,8 @@ function Episode() {
  * Bumped every three days.
  */
 function getEpisodeDate() {
-  const episodeNumber = Math.floor(
-    new Date().getTime() / MILLISECONDS_IN_A_DAY / EPISODE_INTERVAL
-  );
-  const date = new Date(
-    episodeNumber * EPISODE_INTERVAL * MILLISECONDS_IN_A_DAY
-  );
+  const episodeNumber = Math.floor(new Date().getTime() / MILLISECONDS_IN_A_DAY / EPISODE_INTERVAL);
+  const date = new Date(episodeNumber * EPISODE_INTERVAL * MILLISECONDS_IN_A_DAY);
   return date.toISOString().slice(0, 10);
 }
 

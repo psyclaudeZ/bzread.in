@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
-const axios = require("axios");
-const seedrandom = require("seedrandom");
-const https = require("https");
-const fs = require("fs");
-const RSS = require("rss");
+const axios = require('axios');
+const seedrandom = require('seedrandom');
+const https = require('https');
+const fs = require('fs');
+const RSS = require('rss');
 
 const EPISODE_SIZE = 5;
 const EPISODE_INTERVAL = 3; // days
@@ -23,8 +23,8 @@ const agent = https.Agent({
 axios
   .get(process.env.EPISODE_ENDPOINT, {
     headers: {
-      "x-api-key": process.env.EPISODE_ENDPOINT_API_KEY,
-      Accept: "application/json",
+      'x-api-key': process.env.EPISODE_ENDPOINT_API_KEY,
+      Accept: 'application/json',
     },
     httpsAgent: agent,
   })
@@ -32,7 +32,7 @@ axios
     return composeEpisode(response.data, EPISODE_SIZE);
   })
   .then((episode) => {
-    console.log({ episode });
+    console.log({episode});
     composeRss(episode);
     fs.writeFileSync(FULL_OUTPUT_PATH, JSON.stringify(episode));
   })
@@ -48,9 +48,7 @@ axios
  * ensure a new set of elements are picked every EPISODE_INTERVAL days.
  */
 function composeEpisode(arr, size) {
-  const rng = seedrandom(
-    Math.floor(new Date().getTime() / 86400000 / EPISODE_INTERVAL)
-  );
+  const rng = seedrandom(Math.floor(new Date().getTime() / 86400000 / EPISODE_INTERVAL));
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(rng() * (i + 1));
     [arr[i], arr[j]] = [arr[j], arr[i]];
@@ -60,30 +58,30 @@ function composeEpisode(arr, size) {
 
 function composeRss(arr) {
   const feed = new RSS({
-    title: "bzread.in",
-    description: "bzread.in",
-    feed_url: "https://bzread.in/rss.xml",
-    site_url: "https://bzread.in",
+    title: 'bzread.in',
+    description: 'bzread.in',
+    feed_url: 'https://bzread.in/rss.xml',
+    site_url: 'https://bzread.in',
   });
   const feedContentHtml = `<ul>${arr
     .map((obj) => `<li><a href="${obj.uri}">${obj.title}</a></li>`)
-    .join("")}</ul>`;
+    .join('')}</ul>`;
   const newPost = {
     title: "Today's Episode",
     description: `${feedContentHtml}`,
-    url: "https://bzread.in",
+    url: 'https://bzread.in',
     date: new Date(), // Set the publication date for the new post
   };
 
   // Add the new item to the feed
   feed.item(newPost);
-  const rssXml = feed.xml({ indent: true });
+  const rssXml = feed.xml({indent: true});
   // Save the XML file to the desired location, e.g., the public folder of your website
   fs.writeFile(FULL_RSS_PATH, rssXml, (err) => {
     if (err) {
-      console.error("Error saving the RSS XML file:", err);
+      console.error('Error saving the RSS XML file:', err);
     } else {
-      console.log("RSS XML file saved successfully");
+      console.log('RSS XML file saved successfully');
     }
   });
 }

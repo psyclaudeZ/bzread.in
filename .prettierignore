@@ -1,0 +1,4 @@
+**/node_modules/**
+dist/
+**/links.json
+src/client/build/**

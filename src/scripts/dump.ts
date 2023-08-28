@@ -1,29 +1,27 @@
 #!/usr/bin/env node
 
-const fsPromises = require("fs").promises;
-const chalk = require("chalk");
-const figlet = require("figlet");
-const { program } = require("commander");
+const fsPromises = require('fs').promises;
+const chalk = require('chalk');
+const figlet = require('figlet');
+const {program} = require('commander');
 
-const { XMLParser } = require("fast-xml-parser");
-const { marshall, unmarshall } = require("@aws-sdk/util-dynamodb");
+const {XMLParser} = require('fast-xml-parser');
+const {marshall, unmarshall} = require('@aws-sdk/util-dynamodb');
 
-const DbUtils = require("./db.ts");
+const DbUtils = require('./db.ts');
 
-const XML_PATH = "posts.xml";
-const ATTRIBUTE_PREFIX = "@_";
-const PINBOARD_SOURCE = "pinboard";
-const SEPARATOR = ":";
+const XML_PATH = 'posts.xml';
+const ATTRIBUTE_PREFIX = '@_';
+const PINBOARD_SOURCE = 'pinboard';
+const SEPARATOR = ':';
 
-console.log(
-  chalk.white(figlet.textSync("Pinboard Dumper", { horizontalLayout: "full" }))
-);
+console.log(chalk.white(figlet.textSync('Pinboard Dumper', {horizontalLayout: 'full'})));
 console.log(chalk.yellow("Don't forget to curl pinboard first!"));
 
 program
-  .version("1.0")
-  .description("A CLI that dumps Pinboard output to DynamoDB.")
-  .option("-r, --for-realz", "NOT a dry run, actually commit the changes.")
+  .version('1.0')
+  .description('A CLI that dumps Pinboard output to DynamoDB.')
+  .option('-r, --for-realz', 'NOT a dry run, actually commit the changes.')
   .parse(process.argv);
 
 fsPromises
@@ -39,13 +37,13 @@ fsPromises
 
     json.posts.post.forEach((post) => {
       formatted_posts.push({
-        id: PINBOARD_SOURCE + SEPARATOR + post[ATTRIBUTE_PREFIX + "hash"],
-        uri: post[ATTRIBUTE_PREFIX + "href"],
-        title: post[ATTRIBUTE_PREFIX + "description"], // weird field name
+        id: PINBOARD_SOURCE + SEPARATOR + post[ATTRIBUTE_PREFIX + 'hash'],
+        uri: post[ATTRIBUTE_PREFIX + 'href'],
+        title: post[ATTRIBUTE_PREFIX + 'description'], // weird field name
         source: PINBOARD_SOURCE,
         owner: 1, // me :)
         score: 1.0,
-        status: "active",
+        status: 'active',
       });
     });
     return formatted_posts;
@@ -60,15 +58,13 @@ fsPromises
       if (!newLinksSet.has(link.id)) {
         posts.push({
           ...link,
-          status: "owner_removed",
+          status: 'owner_removed',
         });
-        console.log(
-          `Will mark post ${link.id} with ${link.title} as owner_removed.`
-        );
+        console.log(`Will mark post ${link.id} with ${link.title} as owner_removed.`);
       }
     });
     if (!program.opts().forRealz) {
-      console.log(chalk.yellow("Specify -r to actually commit to DynamoDB."));
+      console.log(chalk.yellow('Specify -r to actually commit to DynamoDB.'));
       return;
     }
     // Prepare posts to commit by marshalling and formatting
