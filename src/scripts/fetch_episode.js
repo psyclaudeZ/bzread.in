@@ -104,7 +104,6 @@ function updateRss(arr) {
 
   let feed = null;
   if (!fs.existsSync(TMP_RSS_PATH)) {
-    console.log('yo');
     feed = new RSS({
       title: 'bzread.in',
       description: 'bzread.in',
@@ -114,7 +113,6 @@ function updateRss(arr) {
     });
     feed.item(newPost);
   } else {
-    console.log('hey');
     const existingFeedRaw = fs.readFileSync(TMP_RSS_PATH, 'utf-8');
     const existingFeed = new XMLParser().parse(existingFeedRaw, {arrayMode: false});
     feed = new RSS(existingFeed.rss.channel);
