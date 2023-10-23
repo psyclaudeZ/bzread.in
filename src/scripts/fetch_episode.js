@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const axios = require('axios');
+const crypto = require('crypto');
 const seedrandom = require('seedrandom');
 const https = require('https');
 const fs = require('fs');
@@ -95,10 +96,12 @@ function updateRss(arr) {
   const feedContentHtml = `<ul>${arr
     .map((obj) => `<li><a href="${obj.uri}">${obj.title}</a></li>`)
     .join('')}</ul>`;
+  const newPostId = crypto.createHash('sha256').update(feedContentHtml).digest('hex');
   const newPost = {
     title: "Today's Episode",
     description: `${feedContentHtml}`,
     url: 'https://bzread.in',
+    guid: newPostId,
     date: new Date(),
   };
 
@@ -119,6 +122,10 @@ function updateRss(arr) {
     // For when there's only one item
     if (!Array.isArray(existingFeed.rss.channel.item)) {
       existingFeed.rss.channel.item = [existingFeed.rss.channel.item];
+    }
+    // Don't append the post if it already exists
+    if (existingFeed.rss.channel.item.some((item) => item.guid === newPostId)) {
+      return;
     }
     existingFeed.rss.channel.item.push(newPost);
     existingFeed.rss.channel.item.forEach((item) => {
