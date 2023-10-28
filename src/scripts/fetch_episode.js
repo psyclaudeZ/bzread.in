@@ -10,6 +10,8 @@ const {XMLParser} = require('fast-xml-parser');
 
 const EPISODE_SIZE = 5;
 const EPISODE_INTERVAL = 3; // days
+//TODO: copypasta from episode.js...
+const MILLISECONDS_IN_A_DAY = 24 * 60 * 60 * 1000;
 const FULL_OUTPUT_PATH = `${__dirname}/../../episode/links.json`;
 const FULL_RSS_PATH = `${__dirname}/../../src/client/build/rss.xml`;
 
