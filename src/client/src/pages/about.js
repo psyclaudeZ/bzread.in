@@ -5,11 +5,7 @@ const About = () => {
     <div>
       <p>bz is bz reading, this service smartly curates what he&apos;s explored.</p>
       <p>expect a new episode every three days.</p>
-      <p>
-        WIP: AI integration, feedback,{' '}
-        <a href="https://www.goodreads.com/user/show/18664085-bowei-zhang">book recommendations</a>,
-        etc.
-      </p>
+      <p>WIP: AI integration, feedback, etc.</p>
     </div>
   );
 };
