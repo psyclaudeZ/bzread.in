@@ -12,8 +12,6 @@ const EPISODE_SIZE = 5;
 const EPISODE_INTERVAL = 3; // days
 const FULL_OUTPUT_PATH = `${__dirname}/../../episode/links.json`;
 const FULL_RSS_PATH = `${__dirname}/../../src/client/build/rss.xml`;
-// TODO - replace the actual endpoint
-const TMP_RSS_PATH = `${__dirname}/../../src/client/build/rss_test.xml`;
 
 console.log(Date());
 
@@ -37,7 +35,6 @@ axios
   })
   .then((episode) => {
     console.log({episode});
-    composeRss(episode);
     fs.writeFileSync(FULL_OUTPUT_PATH, JSON.stringify(episode));
     updateRss(episode);
   })
@@ -61,36 +58,6 @@ function composeEpisode(arr, size) {
   return arr.slice(0, size);
 }
 
-function composeRss(arr) {
-  const feed = new RSS({
-    title: 'bzread.in',
-    description: 'bzread.in',
-    feed_url: 'https://bzread.in/rss.xml',
-    site_url: 'https://bzread.in',
-  });
-  const feedContentHtml = `<ul>${arr
-    .map((obj) => `<li><a href="${obj.uri}">${obj.title}</a></li>`)
-    .join('')}</ul>`;
-  const newPost = {
-    title: "Today's Episode",
-    description: `${feedContentHtml}`,
-    url: 'https://bzread.in',
-    date: new Date(), // Set the publication date for the new post
-  };
-
-  // Add the new item to the feed
-  feed.item(newPost);
-  const rssXml = feed.xml({indent: true});
-  // Save the XML file to the desired location, e.g., the public folder of your website
-  fs.writeFile(FULL_RSS_PATH, rssXml, (err) => {
-    if (err) {
-      console.error('Error saving the RSS XML file:', err);
-    } else {
-      console.log('RSS XML file saved successfully');
-    }
-  });
-}
-
 function updateRss(arr) {
   // 1. Compose new episode
   const feedContentHtml = `<ul>${arr
@@ -106,7 +73,7 @@ function updateRss(arr) {
   };
 
   let feed = null;
-  if (!fs.existsSync(TMP_RSS_PATH)) {
+  if (!fs.existsSync(FULL_RSS_PATH)) {
     feed = new RSS({
       title: 'bzread.in',
       description: 'bzread.in',
@@ -116,7 +83,7 @@ function updateRss(arr) {
     });
     feed.item(newPost);
   } else {
-    const existingFeedRaw = fs.readFileSync(TMP_RSS_PATH, 'utf-8');
+    const existingFeedRaw = fs.readFileSync(FULL_RSS_PATH, 'utf-8');
     const existingFeed = new XMLParser().parse(existingFeedRaw, {arrayMode: false});
     feed = new RSS(existingFeed.rss.channel);
     // For when there's only one item
@@ -133,7 +100,7 @@ function updateRss(arr) {
     });
   }
   const rssXml = feed.xml({indent: true});
-  fs.writeFileSync(TMP_RSS_PATH, rssXml, (err) => {
+  fs.writeFileSync(FULL_RSS_PATH, rssXml, (err) => {
     if (err) {
       console.error('Error saving the RSS XML file:', err);
     } else {
