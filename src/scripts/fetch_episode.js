@@ -65,7 +65,7 @@ function updateRss(arr) {
     .join('')}</ul>`;
   const newPostId = crypto.createHash('sha256').update(feedContentHtml).digest('hex');
   const newPost = {
-    title: "Today's Episode",
+    title: `Episode of ${getEpisodeDate()}`,
     description: `${feedContentHtml}`,
     url: 'https://bzread.in',
     guid: newPostId,
@@ -107,4 +107,13 @@ function updateRss(arr) {
       console.log('RSS XML file saved successfully');
     }
   });
+}
+
+/**
+ * TODO: copypasta from episode.js...
+ */
+function getEpisodeDate() {
+  const episodeNumber = Math.floor(new Date().getTime() / MILLISECONDS_IN_A_DAY / EPISODE_INTERVAL);
+  const date = new Date(episodeNumber * EPISODE_INTERVAL * MILLISECONDS_IN_A_DAY);
+  return date.toISOString().slice(0, 10);
 }
