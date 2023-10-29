@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 
+const {S3Client, PutObjectCommand} = require('@aws-sdk/client-s3');
 const axios = require('axios');
 const crypto = require('crypto');
 const seedrandom = require('seedrandom');
 const https = require('https');
+const path = require('path');
 const fs = require('fs');
 const RSS = require('rss');
 const {XMLParser} = require('fast-xml-parser');
@@ -79,8 +81,7 @@ function updateRss(arr) {
     feed = new RSS({
       title: 'bzread.in',
       description: 'bzread.in',
-      // TODO - replace the actual endpoint
-      feed_url: 'https://bzread.in/rss_test.xml',
+      feed_url: 'https://bzread.in/rss.xml',
       site_url: 'https://bzread.in',
     });
     feed.item(newPost);
@@ -94,6 +95,7 @@ function updateRss(arr) {
     }
     // Don't append the post if it already exists
     if (existingFeed.rss.channel.item.some((item) => item.guid === newPostId)) {
+      console.info('RSS unchanged, aborting generation process.');
       return;
     }
     existingFeed.rss.channel.item.push(newPost);
@@ -107,6 +109,23 @@ function updateRss(arr) {
       console.error('Error saving the RSS XML file:', err);
     } else {
       console.log('RSS XML file saved successfully');
+    }
+  });
+
+  // uploads RSS file to S3 (for the record)
+  const s3Client = new S3Client({region: 'us-west-1'});
+  const params = {
+    Body: fs.createReadStream(FULL_RSS_PATH),
+    Bucket: 'bzread.in-assets',
+    Key: path.basename(FULL_RSS_PATH),
+  };
+  const command = new PutObjectCommand(params);
+  s3Client.send(command, function (err, data) {
+    if (err) {
+      console.log('Error uplading RSS file.', err);
+    }
+    if (data) {
+      console.log('Successfully uploaded RSS file.', data.Location);
     }
   });
 }
