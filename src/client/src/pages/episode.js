@@ -30,13 +30,13 @@ function Episode() {
       )
     ) : (
       <div>
-        <ol>
+        <ul>
           {links.map((link) => (
             <li key={link.id}>
               <a href={link.uri}>{link.title}</a>
             </li>
           ))}
-        </ol>
+        </ul>
       </div>
     );
 
