@@ -9,16 +9,16 @@ import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 function App() {
   return (
     <Router>
-      <div className="App">
-        <Header />
+      <Header />
+      <div className="app">
         <Routes>
           <Route exact path="/" element={<Episode />} />
           <Route exact path="/about" element={<About />} />
           <Route exact path="/books" element={<Books />} />
           <Route path="/rss.xml" onEnter={() => window.location.reload()} />
         </Routes>
-        <Footer />
       </div>
+      <Footer />
     </Router>
   );
 }
