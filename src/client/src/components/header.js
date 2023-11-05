@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 
 const Header = () => {
   return (
-    <div>
+    <div className="header">
       <div className="header-flex-container">
         <Link to="/" style={{textDecoration: 'none', color: 'inherit'}}>
           <h2>bzread.in</h2>
