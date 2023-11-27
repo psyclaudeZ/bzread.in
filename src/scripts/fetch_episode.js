@@ -69,7 +69,7 @@ function updateRss(arr) {
     .join('')}</ul>`;
   const newPostId = crypto.createHash('sha256').update(feedContentHtml).digest('hex');
   const newPost = {
-    title: `Episode of ${getEpisodeDate()}`,
+    title: `bzread.in: Episode of ${getEpisodeDate()}`,
     description: `${feedContentHtml}`,
     url: 'https://bzread.in',
     guid: newPostId,
