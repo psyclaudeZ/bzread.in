@@ -259,21 +259,67 @@ const Y2019 = [
   ['和食古早味', 'https://www.goodreads.com/book/show/46021328', 3],
 ];
 
-function getBookList(year) {
-  return (
-    <div>
-      <ul>
-        {year.map((arr) => (
-          <li key={arr[1]}>
-            <a href={arr[1]}>
-              {arr[0]} - {arr[2]}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+function getStarsComponent(n) {
+  let stars = ['☆', '☆', '☆', '☆', '☆'];
+  for (let i = 0; i < n; ++i) {
+    stars[i] = '★';
+  }
+
+  return <a>{stars.join('')}</a>;
 }
+
+function getBookListComponent(yearList) {
+  const res = [];
+  // Sort the list first based on the stars, then on the titles.
+  yearList.sort((a, b) => (b[2] === a[2] ? a[0].localeCompare(b[0]) : b[2] - a[2]));
+
+  for (const item of yearList) {
+    res.push(
+      <li key={item[1]}>
+        {getStarsComponent(item[2])} <a href={item[1]}>{item[0]}</a>
+      </li>,
+    );
+  }
+  return <ul class="stars">{res}</ul>;
+}
+
+/**
+ * List rendering 2, drop it here just in case...
+ */
+/*
+function getBookList(year) {
+  const res = [];
+  const booksByStars = {
+    1: [],
+    2: [],
+    3: [],
+    4: [],
+    5: [],
+  };
+  for (const elem of year) {
+    booksByStars[elem[2]].push(elem);
+  }
+  for (let i = 5; i > 0; --i) {
+    res.push(<h3 class="stars">{renderStars(i)}</h3>);
+    const bookList = booksByStars[i];
+    if (bookList.length === 0) {
+      res.push(<p>n/a</p>);
+      continue;
+    }
+    const bookListComponent = [];
+    for (const item of bookList) {
+      bookListComponent.push(
+        <li key={item[1]}>
+          <a href={item[1]}>{item[0]}</a>
+        </li>,
+      );
+    }
+    res.push(<ul class="dashed">{bookListComponent}</ul>);
+  }
+
+  return res;
+}
+*/
 
 const Books = () => {
   return (
@@ -281,16 +327,25 @@ const Books = () => {
       <p>
         full list <a href="https://www.goodreads.com/user/show/18664085-bowei-zhang">here</a>.
       </p>
+      <div>
+        <ul class="stars">
+          <li>★★★★★ = The juice! Would love to read it again.</li>
+          <li>★★★★☆ = Pog! Time well spent.</li>
+          <li>★★★☆☆ = Decent dopamine boost achieved.</li>
+          <li>★★☆☆☆ = Enjoyed bits, but lowkey feel I could've done something else.</li>
+          <li>★☆☆☆☆ = Total waste of time.</li>
+        </ul>
+      </div>
       <h3>2023 - ongoing</h3>
-      {getBookList(Y2023)}
+      {getBookListComponent(Y2023)}
       <h3>2022</h3>
-      {getBookList(Y2022)}
+      {getBookListComponent(Y2022)}
       <h3>2021</h3>
-      {getBookList(Y2021)}
+      {getBookListComponent(Y2021)}
       <h3>2020</h3>
-      {getBookList(Y2020)}
+      {getBookListComponent(Y2020)}
       <h3>2019</h3>
-      {getBookList(Y2019)}
+      {getBookListComponent(Y2019)}
     </div>
   );
 };
