@@ -329,11 +329,11 @@ const Books = () => {
       </p>
       <div>
         <ul class="stars">
-          <li>★★★★★ = The juice! Would love to read it again.</li>
-          <li>★★★★☆ = Pog! Time well spent.</li>
-          <li>★★★☆☆ = Decent dopamine boost achieved.</li>
-          <li>★★☆☆☆ = Enjoyed bits, but lowkey feel I could've done something else.</li>
-          <li>★☆☆☆☆ = Total waste of time.</li>
+          <li>★★★★★ = the juice! would love to read it again.</li>
+          <li>★★★★☆ = pog! time well spent.</li>
+          <li>★★★☆☆ = decent dopamine boost achieved.</li>
+          <li>★★☆☆☆ = enjoyed bits, but lowkey feel i could've done something else.</li>
+          <li>★☆☆☆☆ = total waste of time.</li>
         </ul>
       </div>
       <h3>2023 - ongoing</h3>
