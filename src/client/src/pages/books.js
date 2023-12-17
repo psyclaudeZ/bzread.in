@@ -65,6 +65,40 @@ const Y2023 = [
     'https://www.goodreads.com/book/show/35377459-blood-and-silk',
     4,
   ],
+  [
+    '沖繩戰的孩子們: 太平洋戰爭下少年少女成為士兵之路',
+    'https://www.goodreads.com/book/show/199432909',
+    3,
+  ],
+  [
+    'Cartoon Introduction to Economics, Volume I: Microeconomics',
+    'https://www.goodreads.com/book/show/7333109-cartoon-introduction-to-economics-volume-i',
+    3,
+  ],
+  [
+    'Effective TypeScript: 62 Specific Ways to Improve Your TypeScript',
+    'https://www.goodreads.com/book/show/48570456-effective-typescript',
+    4,
+  ],
+  [
+    "The Staff Engineer's Path: A Guide for Individual Contributors Navigating Growth and Change",
+    'https://www.goodreads.com/book/show/61058107-the-staff-engineer-s-path',
+    4,
+  ],
+  ['AWS Cookbook', 'https://www.goodreads.com/book/show/58230360-aws-cookbook', 3],
+  ['中国历代政治得失', 'https://www.goodreads.com/book/show/20567233', 3],
+  [
+    'Talking to Strangers: What We Should Know About the People We Don’t Know',
+    'https://www.goodreads.com/book/show/43848929-talking-to-strangers',
+    3,
+  ],
+  [
+    'Read People Like a Book: How to Analyze, Understand, and Predict People’s Emotions, Thoughts, Intentions, and Behaviors',
+    'https://www.goodreads.com/book/show/56199402-read-people-like-a-book',
+    1,
+  ],
+  ['古代汉语常识', 'https://www.goodreads.com/book/show/34394966', 5],
+  ['汉语音韵学常识', 'https://www.goodreads.com/book/show/91677673', 4],
 ];
 
 const Y2022 = [
