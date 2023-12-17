@@ -370,7 +370,7 @@ const Books = () => {
           <li>★☆☆☆☆ = total waste of time.</li>
         </ul>
       </div>
-      <h3>2023 - ongoing</h3>
+      <h3>2023</h3>
       {getBookListComponent(Y2023)}
       <h3>2022</h3>
       {getBookListComponent(Y2022)}
