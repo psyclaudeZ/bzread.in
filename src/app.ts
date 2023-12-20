@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const fs = require('fs');
+const path = require('path');
 
 const port = process.env.PORT || 8088;
 const FULL_OUTPUT_PATH = `${__dirname}/../episode/links.json`;
@@ -31,7 +32,7 @@ app.get('/api/v1/episode', (_req, res) => {
 });
 
 app.get('*', function (_req, res) {
-  res.redirect('/');
+  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
 });
 
 app.listen(port, () => {
