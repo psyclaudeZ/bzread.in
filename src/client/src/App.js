@@ -4,7 +4,7 @@ import Header from './components/header';
 import About from './pages/about';
 import Books from './pages/books';
 import Episode from './pages/episode';
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
