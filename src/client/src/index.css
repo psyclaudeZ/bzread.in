@@ -1,5 +1,5 @@
 body {
-  font-family: monospace;
+  font-family: 'JetBrains Mono', 'Noto Sans Normal', monospace;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -39,7 +39,7 @@ ul li {
 
 .footer {
   margin-top: 3em;
-  font-size: 13px;
+  font-size: 15px;
   position: fixed;
   color: #888;
   background-color: #f8f2e4;
@@ -92,6 +92,6 @@ code {
 }
 
 .app {
-  margin-top: 81px;
+  margin-top: 100px;
   margin-bottom: 70px;
 }
