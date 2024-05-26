@@ -42,7 +42,7 @@ function Episode() {
 
   return (
     <div>
-      <h3>Episode of {getEpisodeDate()}</h3>
+      <h3>episode of {getEpisodeDate()}</h3>
       {links_jsx}
     </div>
   );
