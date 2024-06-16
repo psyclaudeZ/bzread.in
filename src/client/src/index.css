@@ -72,9 +72,19 @@ ul li {
   margin-bottom: -0.5em;
 }
 
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.app {
+  margin-top: 100px;
+  margin-bottom: 70px;
+}
+
 @media only screen and (max-width: 600px) {
   body {
     width: 80%;
+    font-size: smaller;
   }
   li {
     max-width: 90%;
@@ -85,13 +95,4 @@ ul li {
   .header {
     width: 80%;
   }
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-}
-
-.app {
-  margin-top: 100px;
-  margin-bottom: 70px;
 }
