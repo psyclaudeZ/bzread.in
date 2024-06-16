@@ -1,5 +1,76 @@
 import React from 'react';
 
+const Y2024 = [
+  [
+    'The Art of Doing Science and Engineering: Learning to Learn',
+    'https://www.goodreads.com/book/show/530415.The_Art_of_Doing_Science_and_Engineering',
+    1,
+  ],
+  [
+    'Refactoring: Improving the Design of Existing Code',
+    'https://www.goodreads.com/book/show/44936.Refactoring',
+    3,
+  ],
+  ['中國是怎麼形成的：大歷史的速寫', 'https://www.goodreads.com/book/show/202469587', 2],
+  [
+    'The Cartoon Introduction to Economics: Macroeconomics Vol Two',
+    'https://www.goodreads.com/book/show/131901938-the-cartoon-introduction-to-economics',
+    2,
+  ],
+  ['The Plague', 'https://www.goodreads.com/book/show/11989.The_Plague', 2],
+  [
+    'Tidy First?: A Personal Exercise in Empirical Software Design',
+    'https://www.goodreads.com/book/show/171691901-tidy-first',
+    4,
+  ],
+  [
+    'The Book of CP-System',
+    'https://www.goodreads.com/book/show/75274379-the-book-of-cp-system',
+    5,
+  ],
+  [
+    'Four Thousand Weeks: Time Management for Mortals',
+    'https://www.goodreads.com/book/show/54785515-four-thousand-weeks',
+    2,
+  ],
+  [
+    'The Node Craftsman Book',
+    'https://www.goodreads.com/book/show/18633684-the-node-craftsman-book',
+    2,
+  ],
+  ['中国文化中的饮食', 'https://www.goodreads.com/book/show/1895190.Food_in_Chinese_Culture', 2],
+  [
+    'Understanding Distributed Systems',
+    'https://www.goodreads.com/book/show/121101522-understanding-distributed-systems-2nd-edition-paperback',
+    4,
+  ],
+  [
+    'The Simplest Baby Book in the World',
+    'https://www.goodreads.com/book/show/58746568-the-simplest-baby-book-in-the-world',
+    3,
+  ],
+  [
+    '有数：普通人的数字生活纪实',
+    'https://www.goodreads.com/book/show/95657738-tech-for-good-how-ordinaries-ride-the-wave-of-digitalization-in-china',
+    3,
+  ],
+  [
+    'Mindset: The New Psychology of Success',
+    'https://www.goodreads.com/book/show/40745.Mindset',
+    3,
+  ],
+  [
+    "Chip War: The Fight for the World's Most Critical Technology",
+    'https://www.goodreads.com/book/show/60321447-chip-war',
+    3,
+  ],
+  [
+    'The Psychology of Money',
+    'https://www.goodreads.com/book/show/41881472-the-psychology-of-money',
+    3,
+  ],
+];
+
 const Y2023 = [
   [
     'Amp It Up: Leading for Hypergrowth by Raising Expectations, Increasing Urgency, and Elevating Intensity',
@@ -370,6 +441,8 @@ const Books = () => {
           <li>★☆☆☆☆ = total waste of time.</li>
         </ul>
       </div>
+      <h3>2024 (ongoing)</h3>
+      {getBookListComponent(Y2024)}
       <h3>2023</h3>
       {getBookListComponent(Y2023)}
       <h3>2022</h3>
